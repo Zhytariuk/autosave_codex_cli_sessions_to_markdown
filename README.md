@@ -15,6 +15,7 @@ It adds a second layer:
 - watches new or updated `rollout-*.jsonl` files
 - converts them into readable structured `.md`
 - preserves UTF-8 text correctly during export, including Cyrillic and other non-ASCII content
+- starts correctly in Windows PowerShell for manual runs and startup installation
 - supports background startup through either:
   - `Task Scheduler`
   - Windows `Startup`
@@ -78,3 +79,4 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-startup.ps1
 - A small state file prevents repeated duplicate exports.
 - For portability, the scripts default to `$HOME\.codex` and can also be pointed at another root with `-CodexRoot`.
 - Session files are read as UTF-8 during export so non-English text is not mangled on Windows PowerShell.
+- PowerShell script entry points are structured for Windows PowerShell compatibility, so watcher and installers can be launched directly as `.ps1`.

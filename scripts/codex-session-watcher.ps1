@@ -1,6 +1,3 @@
-Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
-
 param(
     [string]$CodexRoot = "",
     [string]$SessionsRoot = "",
@@ -8,6 +5,9 @@ param(
     [string]$StatePath = "",
     [string]$LogPath = ""
 )
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
 . "$PSScriptRoot\codex-session-exporter.ps1"
 

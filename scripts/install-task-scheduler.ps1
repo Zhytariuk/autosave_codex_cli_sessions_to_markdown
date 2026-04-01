@@ -1,10 +1,10 @@
-Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
-
 param(
     [string]$TaskName = "CodexSessionMarkdownWatcher",
     [string]$WatcherScript = "$PSScriptRoot\codex-session-watcher.ps1"
 )
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
 if (-not (Test-Path -LiteralPath $WatcherScript)) {
     throw "Watcher script not found: $WatcherScript"
