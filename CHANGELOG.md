@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 
 - Scripts made portable by defaulting to `$HOME\.codex` instead of a hardcoded user path.
 - Added optional `-CodexRoot` parameter so the project can be reused on another Windows machine or another local Codex root.
+- Session exporter now reads `rollout-*.jsonl` explicitly as UTF-8 to preserve Cyrillic and other non-ASCII text in Markdown exports on Windows PowerShell.
 
 ### Notes
 

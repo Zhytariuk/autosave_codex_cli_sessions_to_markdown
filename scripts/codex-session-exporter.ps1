@@ -74,6 +74,26 @@ function Get-CodexTextFromContent {
     return $text.Trim()
 }
 
+function Read-Utf8FileLines {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $lines = New-Object System.Collections.Generic.List[string]
+    $reader = [System.IO.StreamReader]::new($Path, [System.Text.UTF8Encoding]::new($false))
+
+    try {
+        while (-not $reader.EndOfStream) {
+            $lines.Add($reader.ReadLine())
+        }
+    } finally {
+        $reader.Dispose()
+    }
+
+    return $lines
+}
+
 function Convert-CodexSessionToMarkdown {
     param(
         [Parameter(Mandatory = $true)]
@@ -93,7 +113,7 @@ function Convert-CodexSessionToMarkdown {
     $tokenSnapshots = New-Object System.Collections.Generic.List[object]
     $finalAnswer = $null
 
-    foreach ($line in (Get-Content -LiteralPath $SessionFile)) {
+    foreach ($line in (Read-Utf8FileLines -Path $SessionFile)) {
         if ([string]::IsNullOrWhiteSpace($line)) {
             continue
         }
