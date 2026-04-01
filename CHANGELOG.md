@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-04-01
+
+### Fixed
+
+- Session exporter now reads `rollout-*.jsonl` explicitly as UTF-8 to preserve Cyrillic and other non-ASCII text in Markdown exports on Windows PowerShell.
+- PowerShell entry scripts now place `param(...)` first, fixing startup and watcher execution in Windows PowerShell.
+
 ## [0.1.0] - 2026-04-01
 
 ### Added
@@ -19,8 +26,6 @@ All notable changes to this project will be documented in this file.
 
 - Scripts made portable by defaulting to `$HOME\.codex` instead of a hardcoded user path.
 - Added optional `-CodexRoot` parameter so the project can be reused on another Windows machine or another local Codex root.
-- Session exporter now reads `rollout-*.jsonl` explicitly as UTF-8 to preserve Cyrillic and other non-ASCII text in Markdown exports on Windows PowerShell.
-- PowerShell entry scripts now place `param(...)` first, fixing startup and watcher execution in Windows PowerShell.
 
 ### Notes
 
