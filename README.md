@@ -1,4 +1,4 @@
-# Codex Session Markdown Watcher
+# autosave_codex_cli_sessions_to_markdown
 
 Local automation for exporting Codex session logs into structured Markdown files.
 
