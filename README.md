@@ -1,0 +1,78 @@
+# Codex Session Markdown Watcher
+
+Local automation for exporting Codex session logs into structured Markdown files.
+
+## What this project is
+
+Codex already logs each session locally as `jsonl` under:
+
+`$HOME\.codex\sessions`
+
+This project does not replace that built-in logging.
+
+It adds a second layer:
+
+- watches new or updated `rollout-*.jsonl` files
+- converts them into readable structured `.md`
+- supports background startup through either:
+  - `Task Scheduler`
+  - Windows `Startup`
+
+## Project structure
+
+- `scripts\codex-session-exporter.ps1`
+- `scripts\codex-session-watcher.ps1`
+- `scripts\install-task-scheduler.ps1`
+- `scripts\install-startup.ps1`
+- `scripts\uninstall-task-scheduler.ps1`
+- `scripts\uninstall-startup.ps1`
+- `docs\2026-04-01_[#guide]_codex-session-markdown-watcher-problem-context-and-solution_v.2026.01.md`
+- `docs\2026-04-01_[#guide]_codex-session-markdown-watcher-architecture_v.2026.01.md`
+- `docs\2026-04-01_[#guide]_codex-session-markdown-watcher-installation_v.2026.01.md`
+- `docs\2026-04-01_[#guide]_codex-session-markdown-watcher-operations-and-troubleshooting_v.2026.01.md`
+
+## Quick start
+
+Manual watcher run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\codex-session-watcher.ps1
+```
+
+Manual export for the latest session:
+
+```powershell
+$sf=Get-ChildItem $HOME\.codex\sessions -Recurse -Filter rollout-*.jsonl | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\codex-session-exporter.ps1 -SessionFile $sf.FullName
+```
+
+## Output
+
+Markdown exports are written to:
+
+`$HOME\.codex\session-exports`
+
+## Installation options
+
+### Option 1. Task Scheduler
+
+Recommended when Windows allows scheduled task creation.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-task-scheduler.ps1
+```
+
+### Option 2. Startup
+
+Recommended when scheduled task creation is blocked by permissions.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-startup.ps1
+```
+
+## Notes
+
+- This project assumes Codex continues writing session files to `.codex\sessions`.
+- The exporter rewrites Markdown when the source session file changes.
+- A small state file prevents repeated duplicate exports.
+- For portability, the scripts default to `$HOME\.codex` and can also be pointed at another root with `-CodexRoot`.
