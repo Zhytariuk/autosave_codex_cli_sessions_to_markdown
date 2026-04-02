@@ -77,6 +77,9 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-startup.ps1
 - This project assumes Codex continues writing session files to `.codex\sessions`.
 - The exporter rewrites Markdown when the source session file changes.
 - A small state file prevents repeated duplicate exports.
+- Watcher state keys are stored relative to `.codex\sessions`, which avoids duplicate state entries caused by broken absolute path prefixes on some Windows setups.
 - For portability, the scripts default to `$HOME\.codex` and can also be pointed at another root with `-CodexRoot`.
 - Session files are read as UTF-8 during export so non-English text is not mangled on Windows PowerShell.
+- Active session files are opened with read/write sharing, so Markdown export can succeed while Codex is still appending to the current `jsonl`.
+- If Startup was installed from an older checkout path, rerun `scripts\install-startup.ps1` to refresh the shortcut target.
 - PowerShell script entry points are structured for Windows PowerShell compatibility, so watcher and installers can be launched directly as `.ps1`.

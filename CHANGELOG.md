@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - 2026-04-02
+
+### Fixed
+
+- Exporter now opens active `rollout-*.jsonl` files with read/write sharing so Markdown export can succeed while Codex is still writing the session.
+- Watcher state keys now use normalized paths relative to `.codex\sessions`, avoiding duplicate state entries when Windows path encoding mangles the user profile prefix.
+- Startup-installed watcher instances can be refreshed to the current script path without relying on an older machine-specific repository location.
 ## [0.1.1] - 2026-04-01
 
 ### Fixed
