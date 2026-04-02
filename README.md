@@ -83,3 +83,17 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-startup.ps1
 - Active session files are opened with read/write sharing, so Markdown export can succeed while Codex is still appending to the current `jsonl`.
 - If Startup was installed from an older checkout path, rerun `scripts\install-startup.ps1` to refresh the shortcut target.
 - PowerShell script entry points are structured for Windows PowerShell compatibility, so watcher and installers can be launched directly as `.ps1`.
+
+## Contribution workflow
+
+This repository treats documentation review as a required part of code changes.
+
+- code change -> docs review required
+- behavior change -> changelog update required
+- setup or workflow change -> README or troubleshooting update required
+
+Useful files:
+
+- `CONTRIBUTING.md`
+- `.github\PULL_REQUEST_TEMPLATE.md`
+- `scripts\check-docs.ps1`
