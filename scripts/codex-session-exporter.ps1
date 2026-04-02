@@ -81,7 +81,13 @@ function Read-Utf8FileLines {
     )
 
     $lines = New-Object System.Collections.Generic.List[string]
-    $reader = [System.IO.StreamReader]::new($Path, [System.Text.UTF8Encoding]::new($false))
+    $fileStream = [System.IO.File]::Open(
+        $Path,
+        [System.IO.FileMode]::Open,
+        [System.IO.FileAccess]::Read,
+        [System.IO.FileShare]::ReadWrite
+    )
+    $reader = [System.IO.StreamReader]::new($fileStream, [System.Text.UTF8Encoding]::new($false))
 
     try {
         while (-not $reader.EndOfStream) {
@@ -89,6 +95,7 @@ function Read-Utf8FileLines {
         }
     } finally {
         $reader.Dispose()
+        $fileStream.Dispose()
     }
 
     return $lines

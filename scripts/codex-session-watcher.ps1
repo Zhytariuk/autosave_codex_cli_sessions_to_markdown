@@ -88,6 +88,18 @@ function Get-FileFingerprint {
     return "{0}|{1}" -f $File.Length, $File.LastWriteTimeUtc.Ticks
 }
 
+function Get-StateKey {
+    param([string]$Path)
+
+    $marker = "\sessions\"
+    $index = $Path.IndexOf($marker, [System.StringComparison]::OrdinalIgnoreCase)
+    if ($index -ge 0) {
+        return $Path.Substring($index + $marker.Length)
+    }
+
+    return [System.IO.Path]::GetFileName($Path)
+}
+
 function Export-IfChanged {
     param(
         [string]$Path,
@@ -105,13 +117,14 @@ function Export-IfChanged {
 
     Start-Sleep -Milliseconds 750
     $fingerprint = Get-FileFingerprint -File $file
-    if ($State.ContainsKey($file.FullName) -and $State[$file.FullName] -eq $fingerprint) {
+    $stateKey = Get-StateKey -Path $file.FullName
+    if ($State.ContainsKey($stateKey) -and $State[$stateKey] -eq $fingerprint) {
         return
     }
 
     try {
         $exportPath = Convert-CodexSessionToMarkdown -SessionFile $file.FullName -ExportRoot $ExportRoot -SessionsRoot $SessionsRoot
-        $State[$file.FullName] = $fingerprint
+        $State[$stateKey] = $fingerprint
         Save-State -State $State
         Write-Log "Exported $($file.FullName) -> $exportPath"
     } catch {
